@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../lib/prisma";
-import { BibleBook } from "@prisma/client";
+import type { BibleBook, Chapter } from "@prisma/client";
 
 export async function getBook(
   req: Request<{ book: string }>,
@@ -49,7 +49,7 @@ export async function getBook(
     const bibleBook = {
       id,
       name,
-      chapters: chapters.map((chapter) => ({
+      chapters: chapters.map((chapter: Chapter) => ({
         id: chapter.id,
         bibleBook: `${name} ${chapter.number}`,
       })),

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../lib/prisma";
+import type { Verse } from "@prisma/client";
 
 export async function getAllVerseByChapter(
   req: Request<{ book: string; chapter: string }>,
@@ -53,7 +54,7 @@ export async function getAllVerseByChapter(
     }
 
     // Transform response
-    const verses = targetChapter.verses.map((verse) => ({
+    const verses = targetChapter.verses.map((verse: Verse) => ({
       number: verse.number,
       content: verse.content,
     }));
