@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model BibleBook {
+  id       Int       @id @default(autoincrement())
+  bnumber  Int       @unique
+  name     String
+  chapters Chapter[]
+
+  @@index([name])
+}
+
+model Chapter {
+  id          Int       @id @default(autoincrement())
+  number      Int
+  bibleBookId Int
+  bibleBook   BibleBook @relation(fields: [bibleBookId], references: [id], onDelete: Cascade)
+  verses      Verse[]
+
+  @@unique([number, bibleBookId])
+  @@index([bibleBookId])
+}
+
+model Verse {
+  id        Int     @id @default(autoincrement())
+  number    Int
+  content   String
+  chapterId Int
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  @@unique([number, chapterId])
+  @@index([chapterId])
+}
