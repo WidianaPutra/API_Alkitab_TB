@@ -1,6 +1,6 @@
 # Bible API Documentation
 
-Base URL: `https://your-server.com`
+Base URL: `https://your-project.vercel.app/`
 |**Endpoint**|
 |----|
 |{base_url}/book|
@@ -230,4 +230,5 @@ RateLimit-Reset: 1700000000
 | `404`       | Data tidak ditemukan  |
 | `429`       | Rate limit terlampaui |
 | `500`       | Internal server error |
+
 # Bible_API

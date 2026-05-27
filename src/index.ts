@@ -16,6 +16,13 @@ app.use(cors());
 app.use("/verse", VerseRoute);
 app.use("/book", BookRoute);
 
+if (process.env.NODE_ENV !== "production") {
+  const SERVER_PORT = process.env.SERVER_PORT || 3000;
+  app.listen(SERVER_PORT, () =>
+    console.log(`server up and running on port ${SERVER_PORT}`),
+  );
+}
+
 app.listen(SERVER_PORT, () =>
   console.log(`server up and running on port ${SERVER_PORT}`),
 );
