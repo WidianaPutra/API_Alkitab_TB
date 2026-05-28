@@ -3,6 +3,7 @@ import cors from "cors";
 import env from "dotenv";
 import VerseRoute from "./routes/verse.route";
 import BookRoute from "./routes/book.route";
+import { prisma } from "./lib/prisma";
 
 // config
 env.config();
@@ -29,6 +30,20 @@ if (process.env.NODE_ENV !== "production") {
   );
 }
 
+app.get("/health", async (req, res) => {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    res.status(200).json({
+      status: "ok",
+      database: "connected",
+    });
+  } catch (err) {
+    res.status(503).json({
+      status: "error",
+      database: "disconnected",
+    });
+  }
+});
 app.listen(SERVER_PORT, () =>
   console.log(`server up and running on port ${SERVER_PORT}`),
 );
