@@ -8,6 +8,7 @@ const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const verse_route_1 = __importDefault(require("./routes/verse.route"));
 const book_route_1 = __importDefault(require("./routes/book.route"));
+const prisma_1 = require("./lib/prisma");
 // config
 dotenv_1.default.config();
 // Variable
@@ -23,4 +24,19 @@ if (process.env.NODE_ENV !== "production") {
     const SERVER_PORT = process.env.SERVER_PORT || 3000;
     app.listen(SERVER_PORT, () => console.log(`server up and running on port ${SERVER_PORT}`));
 }
+app.get("/health", async (req, res) => {
+    try {
+        await prisma_1.prisma.$queryRaw `SELECT 1`;
+        res.status(200).json({
+            status: "ok",
+            database: "connected",
+        });
+    }
+    catch (err) {
+        res.status(503).json({
+            status: "error",
+            database: "disconnected",
+        });
+    }
+});
 app.listen(SERVER_PORT, () => console.log(`server up and running on port ${SERVER_PORT}`));
