@@ -12,6 +12,6 @@ export default defineConfig({
   datasource: {
     // url: process.env["DATABASE_URL"],
     // url: "file:./dev.sqlite",
-    url: `file:${path.resolve(__dirname, "../prisma/dev.sqlite")}`,
+    url: `file:${path.resolve(__dirname, "../dev.sqlite")}`,
   },
 });
