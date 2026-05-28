@@ -44,6 +44,7 @@ app.get("/health", async (req, res) => {
     });
   }
 });
+
 app.listen(SERVER_PORT, () =>
   console.log(`server up and running on port ${SERVER_PORT}`),
 );
