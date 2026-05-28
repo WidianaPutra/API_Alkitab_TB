@@ -30,17 +30,28 @@ if (process.env.NODE_ENV !== "production") {
   );
 }
 
+import fs from "fs";
+import path from "path";
+
 app.get("/health", async (req, res) => {
+  const dbPath = path.resolve(process.cwd(), "dev.sqlite");
+  const fileExists = fs.existsSync(dbPath);
+
   try {
     await prisma.$queryRaw`SELECT 1`;
     res.status(200).json({
       status: "ok",
       database: "connected",
+      dbPath,
+      fileExists,
     });
   } catch (err) {
     res.status(503).json({
       status: "error",
       database: "disconnected",
+      dbPath,
+      fileExists,
+      error: String(err),
     });
   }
 });

@@ -24,18 +24,27 @@ if (process.env.NODE_ENV !== "production") {
     const SERVER_PORT = process.env.SERVER_PORT || 3000;
     app.listen(SERVER_PORT, () => console.log(`server up and running on port ${SERVER_PORT}`));
 }
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
 app.get("/health", async (req, res) => {
+    const dbPath = path_1.default.resolve(process.cwd(), "dev.sqlite");
+    const fileExists = fs_1.default.existsSync(dbPath);
     try {
         await prisma_1.prisma.$queryRaw `SELECT 1`;
         res.status(200).json({
             status: "ok",
             database: "connected",
+            dbPath,
+            fileExists,
         });
     }
     catch (err) {
         res.status(503).json({
             status: "error",
             database: "disconnected",
+            dbPath,
+            fileExists,
+            error: String(err),
         });
     }
 });
