@@ -1,5 +1,4 @@
 {
-  "type": "module",
   "scripts": {
     "postinstall": "prisma generate",
     "dev": "npx tsx watch src/index.ts",
